@@ -1,5 +1,7 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common'
+import { Controller, Post, UseGuards } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
+import { CurrentUser } from 'src/auth/current-user-decorator'
+import { UserPayload } from 'src/auth/jwt.strategy'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { z } from 'zod'
 
@@ -17,7 +19,7 @@ export class CreateQuestionController {
   constructor() {}
 
   @Post()
-  async handle() {
-    return 'ok'
+  async handle(@CurrentUser() user: UserPayload) {
+    return user
   }
 }
